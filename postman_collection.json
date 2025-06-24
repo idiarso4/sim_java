@@ -1,0 +1,1030 @@
+{
+  "info": {
+    "name": "Sistem Manajemen Sekolah API",
+    "description": "Collection untuk testing API Sistem Manajemen Sekolah",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{jwt_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080/api",
+      "type": "string"
+    },
+    {
+      "key": "jwt_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "user_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "student_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@sekolah.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.environment.set('jwt_token', response.data.token);",
+                  "    pm.environment.set('user_id', response.data.user.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh_token\": \"{{refresh_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/refresh",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "refresh"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/logout",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "logout"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User Management",
+      "item": [
+        {
+          "name": "Get Users List",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/users?page=1&size=10&user_type=admin",
+              "host": ["{{base_url}}"],
+              "path": ["users"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "key": "user_type",
+                  "value": "admin"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Detail",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/users/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["users", "{{user_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Admin Updated\",\n  \"email\": \"admin.updated@sekolah.com\",\n  \"status\": \"aktif\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["users", "{{user_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"current_password\": \"oldpassword123\",\n  \"new_password\": \"newpassword123\",\n  \"confirm_password\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/change-password",
+              "host": ["{{base_url}}"],
+              "path": ["users", "change-password"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Student Management",
+      "item": [
+        {
+          "name": "Get Students List",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/students?page=1&size=10&class_room_id=1",
+              "host": ["{{base_url}}"],
+              "path": ["students"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "key": "class_room_id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Student",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nis\": \"2024002\",\n  \"nama_lengkap\": \"Jane Smith\",\n  \"email\": \"jane.smith@student.com\",\n  \"telp\": \"081234567890\",\n  \"jenis_kelamin\": \"P\",\n  \"agama\": \"Islam\",\n  \"class_room_id\": 1,\n  \"user\": {\n    \"password\": \"password123\",\n    \"user_type\": \"siswa\",\n    \"role\": \"siswa\"\n  },\n  \"student_details\": {\n    \"birth_place\": \"Jakarta\",\n    \"birth_date\": \"2006-05-15\",\n    \"nik\": \"1234567890123456\",\n    \"address\": \"Jl. Contoh No. 123\",\n    \"phone\": \"081234567890\",\n    \"father_name\": \"Mr. Smith\",\n    \"mother_name\": \"Mrs. Smith\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/students",
+              "host": ["{{base_url}}"],
+              "path": ["students"]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.environment.set('student_id', response.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Student Detail",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/students/{{student_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["students", "{{student_id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Attendance Management",
+      "item": [
+        {
+          "name": "Main Attendance Check-in",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"check_in\",\n  \"latitude\": -6.2088,\n  \"longitude\": 106.8456,\n  \"time\": \"07:30:00\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/attendance/main",
+              "host": ["{{base_url}}"],
+              "path": ["attendance", "main"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Main Attendance Check-out",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"check_out\",\n  \"latitude\": -6.2088,\n  \"longitude\": 106.8456,\n  \"time\": \"15:30:00\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/attendance/main",
+              "host": ["{{base_url}}"],
+              "path": ["attendance", "main"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Class Attendance",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"class_room_id\": 1,\n  \"subject_id\": 1,\n  \"date\": \"2024-01-15\",\n  \"attendances\": [\n    {\n      \"student_id\": 1,\n      \"status\": \"hadir\"\n    },\n    {\n      \"student_id\": 2,\n      \"status\": \"sakit\",\n      \"notes\": \"Sakit flu\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/attendance/class",
+              "host": ["{{base_url}}"],
+              "path": ["attendance", "class"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Prayer Attendance",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"date\": \"2024-01-15\",\n  \"attendances\": [\n    {\n      \"user_id\": 1,\n      \"status\": \"hadir\",\n      \"check_in\": \"12:30:00\"\n    },\n    {\n      \"user_id\": 2,\n      \"status\": \"izin\",\n      \"notes\": \"Izin ke dokter\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/attendance/prayer",
+              "host": ["{{base_url}}"],
+              "path": ["attendance", "prayer"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Attendance Report",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/attendance/report?start_date=2024-01-01&end_date=2024-01-31&class_room_id=1",
+              "host": ["{{base_url}}"],
+              "path": ["attendance", "report"],
+              "query": [
+                {
+                  "key": "start_date",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2024-01-31"
+                },
+                {
+                  "key": "class_room_id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Teaching Activities (KBM)",
+      "item": [
+        {
+          "name": "Create Teaching Activity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mata_pelajaran\": \"Matematika\",\n  \"tanggal\": \"2024-01-15\",\n  \"jam_mulai\": \"08:00:00\",\n  \"jam_selesai\": \"09:30:00\",\n  \"materi\": \"Persamaan Kuadrat\",\n  \"media_dan_alat\": \"Papan tulis, proyektor\",\n  \"important_notes\": \"Siswa perlu latihan lebih banyak\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/teaching/activities",
+              "host": ["{{base_url}}"],
+              "path": ["teaching", "activities"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Teaching Activities",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/teaching/activities?page=1&size=10&tanggal=2024-01-15",
+              "host": ["{{base_url}}"],
+              "path": ["teaching", "activities"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "key": "tanggal",
+                  "value": "2024-01-15"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Student Attendance in Teaching",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"teaching_activity_id\": 1,\n  \"attendances\": [\n    {\n      \"student_id\": 1,\n      \"status\": \"Hadir\"\n    },\n    {\n      \"student_id\": 2,\n      \"status\": \"Sakit\",\n      \"keterangan\": \"Sakit flu\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/teaching/attendance",
+              "host": ["{{base_url}}"],
+              "path": ["teaching", "attendance"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Teacher Daily Journal",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tanggal\": \"2024-01-15\",\n  \"pencapaian\": \"Siswa memahami konsep persamaan kuadrat\",\n  \"kendala\": \"Beberapa siswa masih kesulitan dengan faktorisasi\",\n  \"solusi\": \"Memberikan latihan tambahan dan penjelasan individual\",\n  \"rencana_tindak_lanjut\": \"Review ulang materi di pertemuan berikutnya\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/teacher/journals",
+              "host": ["{{base_url}}"],
+              "path": ["teacher", "journals"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "PKL Management",
+      "item": [
+        {
+          "name": "Create PKL Application",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"office_id\": 1,\n  \"company_leader\": \"Pak Manager\",\n  \"company_type\": \"Software Development\",\n  \"company_phone\": \"021-1234567\",\n  \"company_description\": \"Perusahaan pengembangan software\",\n  \"start_date\": \"2024-02-01\",\n  \"end_date\": \"2024-05-31\",\n  \"position\": \"Junior Developer\",\n  \"phone\": \"081234567890\",\n  \"description\": \"PKL sebagai junior developer\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/pkl/internships",
+              "host": ["{{base_url}}"],
+              "path": ["pkl", "internships"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get PKL List",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/pkl/internships?page=1&size=10&status=active",
+              "host": ["{{base_url}}"],
+              "path": ["pkl", "internships"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "key": "status",
+                  "value": "active"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Approve PKL",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notes\": \"PKL disetujui, silakan mulai pada tanggal yang ditentukan\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/pkl/internships/1/approve",
+              "host": ["{{base_url}}"],
+              "path": ["pkl", "internships", "1", "approve"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PKL Attendance",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pkl_internship_id\": 1,\n  \"date\": \"2024-02-01\",\n  \"check_in\": \"08:00:00\",\n  \"check_out\": \"17:00:00\",\n  \"latitude\": -6.2088,\n  \"longitude\": 106.8456,\n  \"activities\": \"Mempelajari framework React\",\n  \"notes\": \"Hari pertama PKL berjalan lancar\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/pkl/attendance",
+              "host": ["{{base_url}}"],
+              "path": ["pkl", "attendance"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "BK (Counseling) Management",
+      "item": [
+        {
+          "name": "Create Counseling Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"student_id\": 1,\n  \"type\": \"personal\",\n  \"subject\": \"Masalah akademik\",\n  \"description\": \"Siswa mengalami kesulitan dalam mata pelajaran matematika\",\n  \"scheduled_date\": \"2024-01-20\",\n  \"scheduled_time\": \"10:00:00\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/bk/guidance",
+              "host": ["{{base_url}}"],
+              "path": ["bk", "guidance"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Counseling Sessions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/bk/guidance?page=1&size=10&status=scheduled",
+              "host": ["{{base_url}}"],
+              "path": ["bk", "guidance"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "key": "status",
+                  "value": "scheduled"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Counseling Record",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"completed\",\n  \"result\": \"Siswa akan mengikuti remedial dan bimbingan tambahan\",\n  \"follow_up\": \"Monitoring progress selama 2 minggu ke depan\",\n  \"notes\": \"Siswa menunjukkan motivasi yang baik\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/bk/guidance/1",
+              "host": ["{{base_url}}"],
+              "path": ["bk", "guidance", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Assessment & Scoring",
+      "item": [
+        {
+          "name": "Create Assessment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"class_room_id\": 1,\n  \"type\": \"sumatif\",\n  \"subject\": \"Matematika\",\n  \"assessment_name\": \"UTS Semester 1\",\n  \"date\": \"2024-01-20\",\n  \"description\": \"Ujian Tengah Semester mata pelajaran Matematika\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/assessments",
+              "host": ["{{base_url}}"],
+              "path": ["assessments"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Record Student Scores",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assessment_id\": 1,\n  \"scores\": [\n    {\n      \"student_id\": 1,\n      \"score\": 85.5,\n      \"status\": \"hadir\"\n    },\n    {\n      \"student_id\": 2,\n      \"score\": 78.0,\n      \"status\": \"hadir\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/student-scores",
+              "host": ["{{base_url}}"],
+              "path": ["student-scores"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Score Reports",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/student-scores/reports?assessment_id=1",
+              "host": ["{{base_url}}"],
+              "path": ["student-scores", "reports"],
+              "query": [
+                {
+                  "key": "assessment_id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Administrative",
+      "item": [
+        {
+          "name": "Leave Application",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"start_date\": \"2024-01-20\",\n  \"end_date\": \"2024-01-22\",\n  \"reason\": \"Sakit\",\n  \"description\": \"Sakit flu berat, perlu istirahat\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/leaves",
+              "host": ["{{base_url}}"],
+              "path": ["leaves"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Leave Applications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/leaves?page=1&size=10&status=pending",
+              "host": ["{{base_url}}"],
+              "path": ["leaves"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "key": "status",
+                  "value": "pending"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Approve Leave",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"approved\",\n  \"notes\": \"Izin disetujui, jangan lupa siapkan tugas yang tertinggal\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/leaves/1/approve",
+              "host": ["{{base_url}}"],
+              "path": ["leaves", "1", "approve"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Notifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/notifications?page=1&size=10&is_read=false",
+              "host": ["{{base_url}}"],
+              "path": ["notifications"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "key": "is_read",
+                  "value": "false"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Mark Notification as Read",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notification_ids\": [1, 2, 3]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/notifications/mark-read",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", "mark-read"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Dashboard Analytics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/reports/dashboard",
+              "host": ["{{base_url}}"],
+              "path": ["reports", "dashboard"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+} 

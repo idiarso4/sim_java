@@ -1,0 +1,1 @@
+ALTER TABLE attendances ALTER COLUMN time_in TYPE VARCHAR(255); 

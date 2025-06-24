@@ -1,0 +1,1 @@
+ALTER TABLE attendances ADD COLUMN time_out VARCHAR(255); 

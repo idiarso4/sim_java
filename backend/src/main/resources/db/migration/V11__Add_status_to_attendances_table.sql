@@ -1,0 +1,1 @@
+ALTER TABLE attendances ADD COLUMN status VARCHAR(50); 
