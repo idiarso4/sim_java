@@ -1,7 +1,6 @@
 package com.simjava.security;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
+// Firebase imports
 import com.google.firebase.auth.FirebaseToken;
 import com.simjava.service.FirebaseAuthService;
 import jakarta.servlet.FilterChain;
@@ -32,6 +31,7 @@ public class FirebaseAuthenticationFilter extends OncePerRequestFilter {
     private FirebaseAuthService firebaseAuthService;
 
     @Override
+    @SuppressWarnings("unchecked")
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         

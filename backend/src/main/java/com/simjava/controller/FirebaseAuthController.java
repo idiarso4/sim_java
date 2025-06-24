@@ -1,6 +1,6 @@
 package com.simjava.controller;
 
-import com.google.firebase.auth.FirebaseAuthException;
+
 import com.google.firebase.auth.UserRecord;
 import com.simjava.dto.CreateUserRequest;
 import com.simjava.dto.SetCustomClaimsRequest;

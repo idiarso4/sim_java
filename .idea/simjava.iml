@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/frontend/linux/flutter/ephemeral/.plugin_symlinks/file_picker/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/linux/flutter/ephemeral/.plugin_symlinks/file_picker/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/linux/flutter/ephemeral/.plugin_symlinks/file_picker/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/linux/flutter/ephemeral/.plugin_symlinks/share_plus/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/linux/flutter/ephemeral/.plugin_symlinks/share_plus/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/linux/flutter/ephemeral/.plugin_symlinks/share_plus/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/linux/flutter/ephemeral/.plugin_symlinks/device_info_plus/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/linux/flutter/ephemeral/.plugin_symlinks/device_info_plus/build" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/linux/flutter/ephemeral/.plugin_symlinks/device_info_plus/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/linux/flutter/ephemeral/.plugin_symlinks/file_picker/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/linux/flutter/ephemeral/.plugin_symlinks/file_picker/build" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/linux/flutter/ephemeral/.plugin_symlinks/file_picker/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/build" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/linux/flutter/ephemeral/.plugin_symlinks/device_info_plus/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/linux/flutter/ephemeral/.plugin_symlinks/device_info_plus/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/linux/flutter/ephemeral/.plugin_symlinks/device_info_plus/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/linux/flutter/ephemeral/.plugin_symlinks/share_plus/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/linux/flutter/ephemeral/.plugin_symlinks/share_plus/build" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/linux/flutter/ephemeral/.plugin_symlinks/share_plus/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/linux/flutter/ephemeral/.plugin_symlinks/connectivity_plus/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/linux/flutter/ephemeral/.plugin_symlinks/connectivity_plus/build" />
+      <excludeFolder url="file://$MODULE_DIR$/frontend/linux/flutter/ephemeral/.plugin_symlinks/connectivity_plus/.pub" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

@@ -1,0 +1,16 @@
+# Firebase Configuration Template
+# Copy this file to application-secure.properties and fill in your credentials
+# DO NOT commit application-secure.properties to version control
+
+# Firebase Admin SDK Configuration
+firebase.credentials.type=service_account
+firebase.credentials.project_id=your-project-id
+firebase.credentials.private_key_id=your-private-key-id
+firebase.credentials.private_key=your-private-key
+firebase.credentials.client_email=your-client-email
+firebase.credentials.client_id=your-client-id
+firebase.credentials.auth_uri=https://accounts.google.com/o/oauth2/auth
+firebase.credentials.token_uri=https://oauth2.googleapis.com/token
+firebase.credentials.auth_provider_x509_cert_url=https://www.googleapis.com/oauth2/v1/certs
+firebase.credentials.client_x509_cert_url=your-client-cert-url
+firebase.database.url=your-database-url
